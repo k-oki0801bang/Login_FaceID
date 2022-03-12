@@ -9,11 +9,11 @@
 /* Begin PBXBuildFile section */
 		9F794CD227D8DE9500630F7B /* Login_Face_IDApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F794CD127D8DE9500630F7B /* Login_Face_IDApp.swift */; };
 		9F794CD427D8DE9500630F7B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F794CD327D8DE9500630F7B /* ContentView.swift */; };
-		9F794CD627D8DE9900630F7B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9F794CD527D8DE9900630F7B /* Assets.xcassets */; };
 		9F794CD927D8DE9900630F7B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9F794CD827D8DE9900630F7B /* Preview Assets.xcassets */; };
 		9F794CE327D8DE9A00630F7B /* Login_Face_IDTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F794CE227D8DE9A00630F7B /* Login_Face_IDTests.swift */; };
 		9F794CED27D8DE9A00630F7B /* Login_Face_IDUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F794CEC27D8DE9A00630F7B /* Login_Face_IDUITests.swift */; };
 		9F794CEF27D8DE9A00630F7B /* Login_Face_IDUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F794CEE27D8DE9A00630F7B /* Login_Face_IDUITestsLaunchTests.swift */; };
+		9F794CFC27DC45F900630F7B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9F794CD527D8DE9900630F7B /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -231,8 +231,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9F794CFC27DC45F900630F7B /* Assets.xcassets in Resources */,
 				9F794CD927D8DE9900630F7B /* Preview Assets.xcassets in Resources */,
-				9F794CD627D8DE9900630F7B /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -422,6 +422,7 @@
 				DEVELOPMENT_TEAM = 3BQ9ZGULC5;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "ログインを簡略化するために利用します。";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -451,6 +452,7 @@
 				DEVELOPMENT_TEAM = 3BQ9ZGULC5;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "ログインを簡略化するために利用します。";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
