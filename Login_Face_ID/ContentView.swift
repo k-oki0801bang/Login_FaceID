@@ -6,15 +6,27 @@
 //
 
 import SwiftUI
+//生体認証を使用するためのライブラリ
 import LocalAuthentication
 
 struct ContentView: View {
+    @AppStorage("status") var logged = false
     var body: some View {
         NavigationView {
             
-            Home()
-                .preferredColorScheme(.dark)
-                .navigationBarHidden(true)
+            if logged {
+                
+                Text("User Logged In...")
+                    .navigationTitle("Home")
+                    .navigationBarHidden(false)
+                    .preferredColorScheme(.light)
+            }
+            else {
+                
+                Home()
+                    .preferredColorScheme(.dark)
+                    .navigationBarHidden(true)
+            }
         }
     }
 }
@@ -30,7 +42,10 @@ struct Home: View {
     @State var userName = ""
     @State var password = ""
     //初めてユーザーが電子メールでログインしたとき、以降の生体認証ログインのためにこれを保存します...
-    @AppStorage("stored_User") var user = "reply.kavsoft@gmail.com"
+    //@AppStorageはUserDefaultsを使用してデータを保持する
+    @AppStorage("stored_User") var user = "yamadakoki0124@icloud.com"
+    @AppStorage("status") var logged = false
+    
     var body: some View {
         VStack {
             
@@ -69,6 +84,8 @@ struct Home: View {
                     
                     TextField("E-mail", text: $userName)
                         .foregroundColor(.black)
+                        .autocapitalization(.none)
+                        .keyboardType(.emailAddress)
                 }
                 .padding()
                 .background(
@@ -86,6 +103,8 @@ struct Home: View {
                     
                     SecureField("password", text: $password)
                         .foregroundColor(.black)
+                        .autocapitalization(.none)
+                        .keyboardType(.default)
                 }
                 .padding()
                 .background(
@@ -95,20 +114,36 @@ struct Home: View {
                 .padding(.horizontal)
                 .padding(.top)
                 
-                //Login Button...
-                Button(action: {}, label: {
-                    Text("Login")
-                        .fontWeight(.heavy)
-                        .foregroundColor(.white)
-                        .padding(.vertical)
-                        .frame(width: UIScreen.main.bounds.width - 150)
-                        .background(Color(red: 0.2, green: 0.97, blue: 0.78))
-                        .cornerRadius(8)
-                        .shadow(color: Color(red: 0.2, green: 0.97, blue: 0.78).opacity(0.7), radius: 5, x: 3, y: 3)
-                })
+                HStack {
+                    //Login Button...
+                    Button(action: {}, label: {
+                        Text("Login")
+                            .fontWeight(.heavy)
+                            .foregroundColor(.white)
+                            .padding(.vertical)
+                            .frame(width: UIScreen.main.bounds.width - 150)
+                            .background(Color(red: 0.2, green: 0.97, blue: 0.78))
+                            .cornerRadius(8)
+                            .shadow(color: Color(red: 0.2, green: 0.97, blue: 0.78).opacity(0.7), radius: 5, x: 3, y: 3)
+                    })
+                        .opacity(userName != "" && password != "" ? 1 : 0.5)
+                    .disabled(userName != "" && password != "" ? false : true)
+                    
+                    if getBioMetricStatus(){
+                        
+                        Button(action: authenticateUser, label: {
+                            //認証処理の実行
+                            Image(systemName: LAContext().biometryType == .faceID ? "faceid" : "touchid")
+                                .font(.title)
+                                .foregroundColor(.white)
+                                .padding()
+                                .background(Color(red: 0.2, green: 0.97, blue: 0.78))
+                                .clipShape(Circle())
+                        })
+                    }
+                    
+                }
                 .padding(.top)
-                .opacity(userName != "" && password != "" ? 1 : 0)
-                .disabled(userName != "" && password != "" ? false : true)
                 
                 
                 //Forget Button...
@@ -144,8 +179,32 @@ struct Home: View {
             Color(red: 0.32, green: 0.34, blue: 0.95)
                 .ignoresSafeArea(.all, edges: .all)
         )
+        .animation(.easeOut)
     }
     
     //Getting BioMetricType...
+    func getBioMetricStatus()->Bool {
+        //生体認証を管理クラスを生成
+        let scanner = LAContext()
+        //顔認証が利用できるかチェック
+        if userName == user && scanner.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: .none){
+            
+            return true
+        }
+        return false
+    }
     
+    func authenticateUser(){
+        
+        let scanner = LAContext()
+        scanner.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: "To unlock \(userName)") { (status, err) in
+            if err != nil {
+                print(err!.localizedDescription)
+                return
+            }
+            
+            //setting logged status as true...
+            withAnimation(.easeOut){logged = true}
+        }
+    }
 }
